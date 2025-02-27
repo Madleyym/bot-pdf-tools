@@ -1,106 +1,167 @@
 # Bot Penerjemah PDF
 
-Sebuah alat berbasis Python yang secara otomatis menerjemahkan dokumen PDF dari bahasa Inggris ke bahasa Indonesia menggunakan Google Translate API.
+Bot penerjemah PDF otomatis dari bahasa Inggris ke bahasa Indonesia menggunakan Google Translate API.
 
-## Fitur
+## Cara Cepat Mulai (Quick Start)
 
-- 🔄 Penerjemahan dari bahasa Inggris ke Indonesia
-- 📚 Pemrosesan batch untuk banyak file PDF
-- 📁 Output yang terorganisir dengan prefix "translated_"
-- 📊 Pelacakan progres selama penerjemahan
-- ⚡ Pemrosesan cepat
-- 🛠️ Penanganan kesalahan yang kuat
+1. **Download dan Ekstrak**
+   ```bash
+   git clone https://github.com/Madleyym/bot-pdf-tools.git
+   cd bot-pdf-tools
+   ```
 
-## Prasyarat
+2. **Install Python** (jika belum)
+   - Download Python 3.x dari [python.org](https://www.python.org/downloads/)
+   - Pastikan centang "Add Python to PATH" saat instalasi
 
-Sebelum menjalankan alat ini, pastikan Anda memiliki:
-- Python 3.x terinstal
-- Koneksi internet (diperlukan untuk penerjemahan)
+3. **Install Dependencies**
+   ```bash
+   pip install PyPDF2 deep-translator fpdf
+   ```
 
-## Instalasi
+4. **Siapkan File**
+   - Buat folder `PDF` jika belum ada
+   - Copykan file PDF berbahasa Inggris ke folder `PDF`
 
-1. Clone repositori ini:
-```bash
-git clone https://github.com/Madleyym/bot-pdf-tools.git
-cd bot-pdf-tools
-```
+5. **Jalankan Bot**
+   ```bash
+   python bot.py
+   ```
 
-2. Instal dependensi yang diperlukan:
-```bash
-pip install PyPDF2 deep-translator fpdf
-```
+## Panduan Lengkap
 
-## Struktur Direktori
+### Persiapan Awal
 
-```
-bot-pdf-tools/
-│
-├── PDF/                   # Letakkan file PDF berbahasa Inggris di sini
-├── bot.py                 # Skrip utama
-└── README.md              # File ini
-```
+1. **Install Git** (jika belum)
+   - Download dari [git-scm.com](https://git-scm.com/downloads)
+   - Install dengan pengaturan default
 
-## Cara Penggunaan
+2. **Clone Repository**
+   ```bash
+   git clone https://github.com/Madleyym/bot-pdf-tools.git
+   ```
 
-1. Letakkan file PDF berbahasa Inggris Anda di folder `PDF`.
+3. **Buka Terminal/Command Prompt**
+   - Windows: `Win + R`, ketik `cmd`, Enter
+   - Mac: Buka Terminal
+   - Linux: Ctrl + Alt + T
 
-2. Jalankan skrip:
-```bash
-python bot.py
-```
+4. **Masuk ke Direktori**
+   ```bash
+   cd path/to/bot-pdf-tools
+   ```
 
-3. Skrip akan:
-   - Memproses semua file PDF berbahasa Inggris di folder PDF
-   - Menerjemahkan kontennya ke bahasa Indonesia
-   - Membuat versi terjemahan dengan prefix "translated_"
-   - Menampilkan progres untuk setiap file dan halaman
-   - Menampilkan ringkasan hasil penerjemahan yang sukses dan gagal
+### Install Dependencies
 
-## Konfigurasi
+1. **Periksa Python**
+   ```bash
+   python --version
+   ```
+   Harus menampilkan Python 3.x
 
-Skrip ini dikonfigurasi untuk:
-- Membaca PDF berbahasa Inggris dari: `Folder: PDF`
-- Menerjemahkan dari bahasa Inggris ke bahasa Indonesia
-- Menyimpan file terjemahan di folder yang sama dengan prefix "translated_"
+2. **Periksa pip**
+   ```bash
+   pip --version
+   ```
 
-## Penanganan Kesalahan
+3. **Install Package yang Diperlukan**
+   ```bash
+   pip install PyPDF2 deep-translator fpdf
+   ```
 
-Skrip ini mencakup penanganan kesalahan yang komprehensif untuk:
-- File atau folder PDF yang hilang
-- Kesalahan dalam penerjemahan
-- Masalah akses file
-- Kesalahan saat membaca/menulis PDF
+### Menyiapkan File
 
-## Contoh Output
+1. **Struktur Folder**
+   ```
+   bot-pdf-tools/
+   │
+   ├── PDF/                    # Folder untuk file input
+   ├── partial_translations/   # Akan dibuat otomatis
+   └── bot.py
+   ```
 
-File input: `chapter1.pdf` (Bahasa Inggris)
-File output: `translated_chapter1.pdf` (Bahasa Indonesia)
+2. **Format File yang Didukung**
+   - File PDF dengan teks yang bisa dicopy
+   - Ukuran file: tidak ada batasan khusus
+   - Bahasa: Inggris (sumber)
 
-## Kontribusi
+### Menjalankan Bot
 
-Silakan:
-- Laporkan masalah
-- Kirimkan pull request
-- Berikan saran perbaikan
-- Bagikan umpan balik Anda
+1. **Mode Dasar**
+   ```bash
+   python bot.py
+   ```
 
-## Penulis
+2. **Memantau Progress**
+   - Progress ditampilkan per halaman
+   - Persentase penyelesaian
+   - Statistik sukses/gagal
 
-- **Mad-jr**
+3. **Menghentikan Proses**
+   - Tekan `Ctrl + C` untuk pause
+   - Progress tersimpan otomatis
+
+4. **Melanjutkan Proses**
+   - Jalankan ulang bot
+   - Akan melanjutkan dari halaman terakhir
+
+### Troubleshooting
+
+1. **Error "ModuleNotFoundError"**
+   ```bash
+   pip install --upgrade PyPDF2 deep-translator fpdf
+   ```
+
+2. **Error Permission**
+   - Jalankan terminal sebagai Administrator (Windows)
+   - Gunakan `sudo` (Linux/Mac)
+
+3. **File Tidak Terbaca**
+   - Pastikan file PDF bisa dicopy textnya
+   - Coba scan ulang jika dari hasil scan
+
+4. **Koneksi Internet**
+   - Cek koneksi internet
+   - Gunakan koneksi stabil
+
+### Tips Penggunaan
+
+1. **Optimasi Kinerja**
+   - Proses satu file besar sekaligus
+   - Biarkan bot berjalan hingga selesai
+   - Gunakan koneksi internet stabil
+
+2. **Mengecek Hasil**
+   - Cek folder `partial_translations` untuk hasil per halaman
+   - File final ada di folder utama dengan prefix "translated_"
+
+3. **Backup Progress**
+   - File progress tersimpan dalam format JSON
+   - Bisa dicopy untuk backup
+
+## Informasi Teknis
+
+- **Author**: Madleyym
+- **Version**: 1.0.0
+- **Created**: 2025-02-27
+- **Python Version**: 3.x
+- **Dependencies**: PyPDF2, deep-translator, fpdf
+
+## Support
+
+Jika mengalami masalah:
+1. Buka issue di GitHub
+2. Jelaskan error yang muncul
+3. Lampirkan log error jika ada
+4. Sebutkan versi Python dan OS yang digunakan
+
+## Update Log
+
+- **2025-02-27**: Initial release
+- Penambahan fitur progress tracking
+- Penambahan penyimpanan parsial
+- Peningkatan stabilitas
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah MIT License - lihat file LICENSE untuk detail lebih lanjut.
-
-## Penghargaan
-
-- PyPDF2 untuk pemrosesan PDF
-- deep-translator untuk layanan penerjemahan
-- FPDF untuk pembuatan PDF
-
-## Catatan Penting
-
-1. Alat ini khusus dirancang untuk penerjemahan dari bahasa Inggris ke bahasa Indonesia
-2. Pastikan file PDF Anda berisi teks bahasa Inggris yang dapat dibaca
-3. Kualitas terjemahan tergantung pada akurasi Google Translate
-4. File PDF berukuran besar mungkin membutuhkan waktu lebih lama untuk diproses
+MIT License - Lihat file LICENSE untuk detail lengkap.
