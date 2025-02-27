@@ -4,7 +4,7 @@ Bot penerjemah PDF otomatis dari bahasa Inggris ke bahasa Indonesia menggunakan 
 
 ## Cara Cepat Mulai (Quick Start)
 
-1. **Download dan Ekstrak**
+1. **Download .ZIP & Ekstrak OR Clone**
    ```bash
    git clone https://github.com/Madleyym/bot-pdf-tools.git
    cd bot-pdf-tools
