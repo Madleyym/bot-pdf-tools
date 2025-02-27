@@ -1,107 +1,106 @@
-# PDF Translation Bot
+# Bot Penerjemah PDF
 
-A Python-based tool that automatically translates PDF documents from English to Indonesian using Google Translate API.
+Sebuah alat berbasis Python yang secara otomatis menerjemahkan dokumen PDF dari bahasa Inggris ke bahasa Indonesia menggunakan Google Translate API.
 
-## Features
+## Fitur
 
-- 🔄 English to Indonesian translation
-- 📚 Batch processing of multiple PDF files
-- 📁 Organized output with prefix "translated_"
-- 📊 Progress tracking during translation
-- ⚡ Fast processing
-- 🛠️ Robust error handling
+- 🔄 Penerjemahan dari bahasa Inggris ke Indonesia
+- 📚 Pemrosesan batch untuk banyak file PDF
+- 📁 Output yang terorganisir dengan prefix "translated_"
+- 📊 Pelacakan progres selama penerjemahan
+- ⚡ Pemrosesan cepat
+- 🛠️ Penanganan kesalahan yang kuat
 
-## Prerequisites
+## Prasyarat
 
-Before running this tool, make sure you have:
-- Python 3.x installed
-- Internet connection (required for translation)
+Sebelum menjalankan alat ini, pastikan Anda memiliki:
+- Python 3.x terinstal
+- Koneksi internet (diperlukan untuk penerjemahan)
 
-## Installation
+## Instalasi
 
-1. Clone this repository:
+1. Clone repositori ini:
 ```bash
 git clone https://github.com/Madleyym/bot-pdf-tools.git
 cd bot-pdf-tools
 ```
 
-2. Install the required dependencies:
+2. Instal dependensi yang diperlukan:
 ```bash
 pip install PyPDF2 deep-translator fpdf
 ```
 
-## Directory Structure
+## Struktur Direktori
 
 ```
 bot-pdf-tools/
 │
-├── PDF/                    # Place your English PDF files here
-├── bot.py                 # Main script
-└── README.md              # This file
+├── PDF/                    # Letakkan file PDF berbahasa Inggris di sini
+├── bot.py                 # Skrip utama
+└── README.md              # File ini
 ```
 
-## Usage
+## Cara Penggunaan
 
-1. Place your English PDF files in the `PDF` folder.
+1. Letakkan file PDF berbahasa Inggris Anda di folder `PDF`.
 
-2. Run the script:
+2. Jalankan skrip:
 ```bash
 python bot.py
 ```
 
-3. The script will:
-   - Process all English PDF files in the PDF folder
-   - Translate the content to Indonesian
-   - Create translated versions with prefix "translated_"
-   - Show progress for each file and page
-   - Display a summary of successful and failed translations
+3. Skrip akan:
+   - Memproses semua file PDF berbahasa Inggris di folder PDF
+   - Menerjemahkan kontennya ke bahasa Indonesia
+   - Membuat versi terjemahan dengan prefix "translated_"
+   - Menampilkan progres untuk setiap file dan halaman
+   - Menampilkan ringkasan hasil penerjemahan yang sukses dan gagal
 
-## Configuration
+## Konfigurasi
 
-The script is configured to:
-- Read English PDFs from: `C:\Users\twenty-one\Desktop\Xian Ni - Renegade Immortal\bot-pdf-tools\PDF`
-- Translate from English to Indonesian
-- Save translated files in the same folder with "translated_" prefix
+Skrip ini dikonfigurasi untuk:
+- Membaca PDF berbahasa Inggris dari: `C:\Users\twenty-one\Desktop\Xian Ni - Renegade Immortal\bot-pdf-tools\PDF`
+- Menerjemahkan dari bahasa Inggris ke bahasa Indonesia
+- Menyimpan file terjemahan di folder yang sama dengan prefix "translated_"
 
-## Error Handling
+## Penanganan Kesalahan
 
-The script includes comprehensive error handling for:
-- Missing PDF files or folders
-- Translation errors
-- File access issues
-- PDF reading/writing errors
+Skrip ini mencakup penanganan kesalahan yang komprehensif untuk:
+- File atau folder PDF yang hilang
+- Kesalahan dalam penerjemahan
+- Masalah akses file
+- Kesalahan saat membaca/menulis PDF
 
-## Output Examples
+## Contoh Output
 
-Input file: `chapter1.pdf` (English)
-Output file: `translated_chapter1.pdf` (Indonesian)
+File input: `chapter1.pdf` (Bahasa Inggris)
+File output: `translated_chapter1.pdf` (Bahasa Indonesia)
 
-## Contributing
+## Kontribusi
 
-Feel free to:
-- Report issues
-- Submit pull requests
-- Suggest improvements
-- Share your feedback
+Silakan:
+- Laporkan masalah
+- Kirimkan pull request
+- Berikan saran perbaikan
+- Bagikan umpan balik Anda
 
-## Author
+## Penulis
 
-- **Madleyym**
-- Created: 2025-02-27 01:42:31 UTC
+- **Mad-jr**
 
-## License
+## Lisensi
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Proyek ini dilisensikan di bawah MIT License - lihat file LICENSE untuk detail lebih lanjut.
 
-## Acknowledgments
+## Penghargaan
 
-- PyPDF2 for PDF processing
-- deep-translator for translation services
-- FPDF for PDF creation
+- PyPDF2 untuk pemrosesan PDF
+- deep-translator untuk layanan penerjemahan
+- FPDF untuk pembuatan PDF
 
-## Important Notes
+## Catatan Penting
 
-1. This tool is specifically designed for English to Indonesian translation
-2. Make sure your PDF files contain readable English text
-3. The quality of translation depends on Google Translate's accuracy
-4. Large PDF files may take longer to process
+1. Alat ini khusus dirancang untuk penerjemahan dari bahasa Inggris ke bahasa Indonesia
+2. Pastikan file PDF Anda berisi teks bahasa Inggris yang dapat dibaca
+3. Kualitas terjemahan tergantung pada akurasi Google Translate
+4. File PDF berukuran besar mungkin membutuhkan waktu lebih lama untuk diproses
