@@ -59,7 +59,7 @@ python bot.py
 ## Konfigurasi
 
 Skrip ini dikonfigurasi untuk:
-- Membaca PDF berbahasa Inggris dari: `C:\Users\twenty-one\Desktop\Xian Ni - Renegade Immortal\bot-pdf-tools\PDF`
+- Membaca PDF berbahasa Inggris dari: `Folder: PDF`
 - Menerjemahkan dari bahasa Inggris ke bahasa Indonesia
 - Menyimpan file terjemahan di folder yang sama dengan prefix "translated_"
 
