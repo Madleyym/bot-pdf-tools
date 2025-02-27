@@ -35,7 +35,7 @@ pip install PyPDF2 deep-translator fpdf
 ```
 bot-pdf-tools/
 │
-├── PDF/                    # Letakkan file PDF berbahasa Inggris di sini
+├── PDF/                   # Letakkan file PDF berbahasa Inggris di sini
 ├── bot.py                 # Skrip utama
 └── README.md              # File ini
 ```
