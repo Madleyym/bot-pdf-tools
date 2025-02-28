@@ -75,120 +75,111 @@ class PDFTranslator:
             except:
                 return text  # Return original on error
 
-    def process_pdf(self, pdf_path):
-        """Process PDF and create translated text and PDF files"""
+    def process_pdf_with_layout_preserved(self, pdf_path):
+        """Process PDF and create translated version while preserving layout"""
         print(f"\nMemproses: {pdf_path}")
-
+        
         # Create output directory
         base_name = os.path.splitext(os.path.basename(pdf_path))[0]
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_dir = os.path.join(self.output_folder, f"{base_name}_{timestamp}")
         os.makedirs(output_dir, exist_ok=True)
-
-        # Output file paths - clearly displayed
-        output_txt = os.path.join(output_dir, f"terjemahan_{base_name}.txt")
+        
+        # Output file paths
         output_pdf = os.path.join(output_dir, f"terjemahan_{base_name}.pdf")
-        print(f"File yang akan dibuat:\n- TXT: {output_txt}\n- PDF: {output_pdf}")
-
+        output_txt = os.path.join(output_dir, f"terjemahan_{base_name}.txt")
+        
         # Open the PDF
         doc = fitz.open(pdf_path)
         total_pages = len(doc)
         print(f"Total halaman: {total_pages}")
-
-        # Collect translated content per page
-        translated_pages = []
-        skipped_pages = []
-        all_pages_content = []
-
+        
+        # Create a copy for annotations
+        output_doc = fitz.open()
+        
+        # Text file for translations
         with open(output_txt, "w", encoding="utf-8") as f:
             # Write header
             f.write(f"=== TERJEMAHAN {base_name} ===\n")
-            f.write(
-                f"Diterjemahkan pada: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-            )
-
+            f.write(f"Diterjemahkan pada: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            
             # Process each page
+            translated_pages = []
+            skipped_pages = []
+            
             for page_num in range(total_pages):
                 try:
                     page = doc[page_num]
-
                     print(f"\nMemproses halaman {page_num+1} dari {total_pages}...")
-
+                    
+                    # Create new page with same dimensions
+                    new_page = output_doc.new_page(width=page.rect.width, height=page.rect.height)
+                    
+                    # First copy the original page as background to preserve layout and images
+                    new_page.show_pdf_page(new_page.rect, doc, page_num)
+                    
                     # Check if it's an image page
                     if self.is_image_page(page):
-                        print(
-                            f"Halaman {page_num+1} terdeteksi sebagai gambar, dilewati."
-                        )
+                        print(f"Halaman {page_num+1} terdeteksi sebagai gambar, mempertahankan asli.")
                         skipped_pages.append(page_num + 1)
                         continue
-
-                    # Extract text
-                    text = page.get_text()
-
-                    if not text.strip():
-                        print(f"Halaman {page_num+1} tidak memiliki teks, dilewati.")
-                        skipped_pages.append(page_num + 1)
-                        continue
-
-                    # Split text into paragraphs for better translation
-                    paragraphs = [
-                        p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()
-                    ]
-
-                    print(f"Menerjemahkan halaman {page_num+1}...")
-
+                    
+                    # Extract text blocks for translation
+                    blocks = page.get_text("blocks")
+                    
                     # Write to text file
                     f.write(f"\n\n--- HALAMAN {page_num+1} ---\n\n")
-
-                    # Store page content for PDF
-                    page_content = []
-
-                    # Translate each paragraph
-                    for para in paragraphs:
-                        if para.strip():
-                            translated = self.translate_text(para)
-                            f.write(f"{translated}\n\n")
-                            page_content.append(translated)
-
-                    all_pages_content.append(
-                        {"page_num": page_num + 1, "content": page_content}
-                    )
-
+                    
+                    # Add semi-transparent white layer to make original text less visible
+                    # (optional - uncomment if you want to make original text fade out)
+                    # rect = page.rect
+                    # new_page.draw_rect(rect, color=(1, 1, 1), fill=(1, 1, 1, 0.7))
+                    
+                    # Translate and add text blocks over original
+                    for block in blocks:
+                        if block[6] == 0:  # text block
+                            text = block[4].strip()
+                            if len(text) > 5:  # Skip very short blocks
+                                rect = fitz.Rect(block[:4])
+                                
+                                # Translate the text
+                                translated = self.translate_text(text)
+                                f.write(f"{translated}\n\n")
+                                
+                                # Add translated text as annotation
+                                annot = new_page.add_freetext_annot(
+                                    rect,
+                                    translated,
+                                    fontsize=10,
+                                    fontname="helv",
+                                    text_color=(0, 0, 0),
+                                    fill_color=(1, 1, 1, 0.9),  # Almost opaque white
+                                    border_color=(0, 0, 0)
+                                )
+                                annot.update()
+                    
                     translated_pages.append(page_num + 1)
                     print(f"✓ Halaman {page_num+1} berhasil diterjemahkan")
-
+                    
                     # Add delay to avoid API limitations
                     time.sleep(1.5)
-
+                    
                 except Exception as e:
                     print(f"Error pada halaman {page_num+1}: {str(e)}")
                     skipped_pages.append(page_num + 1)
-
-        # Create PDF - with extra debugging
-        print("\nMembuat file PDF...")
-        try:
-            self.create_pdf_file(output_pdf, base_name, all_pages_content)
-            print(f"✓ PDF berhasil dibuat: {output_pdf}")
-        except Exception as e:
-            print(f"Error saat membuat PDF: {str(e)}")
-            # Try alternative PDF creation
-            try:
-                print("Mencoba metode alternatif untuk membuat PDF...")
-                self.create_simple_pdf(output_txt, output_pdf, base_name)
-                print(f"✓ PDF berhasil dibuat dengan metode alternatif: {output_pdf}")
-            except Exception as e:
-                print(f"Gagal membuat PDF: {str(e)}")
-
-        # Summary
+            
+            # Save the translated PDF
+            output_doc.save(output_pdf)
+            output_doc.close()
+        
+        doc.close()
+        
         print("\nProses terjemahan selesai:")
         print(f"- Hasil terjemahan (txt): {output_txt}")
-        if os.path.exists(output_pdf):
-            print(f"- Hasil terjemahan (pdf): {output_pdf}")
-        else:
-            print("- PDF tidak berhasil dibuat")
+        print(f"- Hasil terjemahan (pdf): {output_pdf}")
         print(f"- Halaman diterjemahkan: {len(translated_pages)} dari {total_pages}")
         print(f"- Halaman dilewati: {len(skipped_pages)}")
-
+        
         return True
 
     def create_pdf_file(self, pdf_path, title, page_contents):
@@ -341,8 +332,8 @@ class PDFTranslator:
 
             for pdf_file in pdf_files:
                 pdf_path = os.path.join(self.pdf_folder, pdf_file)
-                self.process_pdf(pdf_path)
-
+                self.process_pdf_with_layout_preserved(pdf_path)
+                
             retry = input("\nIngin menerjemahkan PDF lain? (y/n): ").lower()
             if retry != "y":
                 break
